@@ -77,7 +77,7 @@ namespace RestaurantAPI.Services
             return true;
         }
 
-        public RestaurantDto Edit(int id, EditRestaurantDto editRestaurantDto)
+        public RestaurantDto Edit(int id, EditRestaurantDto dto)
         {
             var restaurant = _dbContext
                .Restaurants
@@ -88,9 +88,9 @@ namespace RestaurantAPI.Services
                 return null;
             }
 
-            restaurant.Name = editRestaurantDto.Name;
-            restaurant.Description = editRestaurantDto.Description;
-            restaurant.HasDelivery = editRestaurantDto.HasDelivery;
+            restaurant.Name = dto.Name;
+            restaurant.Description = dto.Description;
+            restaurant.HasDelivery = dto.HasDelivery;
 
             _dbContext.SaveChanges();
 
