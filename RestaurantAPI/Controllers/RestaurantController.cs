@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace RestaurantAPI.Controllers
 {
     [Route("api/restaurant")]
+    [ApiController]
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
@@ -25,10 +26,6 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var id = _restaurantService.Create(dto);
 
 
@@ -49,40 +46,21 @@ namespace RestaurantAPI.Controllers
         {
             var restaurant = _restaurantService.GetById(id);
 
-            if (restaurant is null)
-            {
-                return NotFound();
-            }
-
             return Ok(restaurant);
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var isDeleted = _restaurantService.Delete(id);
-
-            if (isDeleted)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
+           _restaurantService.Delete(id);
+            
+            return NoContent();
         }
 
         [HttpPut("{id}")]
         public ActionResult Edit([FromBody] EditRestaurantDto editRestaurantDto,[FromRoute] int id) 
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var restaurant = _restaurantService.Edit(id, editRestaurantDto);
-            if (restaurant is null)
-            {
-                return NotFound();
-            }
 
             return Ok(restaurant);
         }
